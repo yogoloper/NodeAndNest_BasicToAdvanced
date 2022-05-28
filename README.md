@@ -14,3 +14,7 @@
   - https://expressjs.com
 - typescript
   - https://www.staging-typescript.org
+- NestJS
+  - https://docs.nestjs.com/
+- ES Lint
+  - https://eslint.org/docs/rules/
