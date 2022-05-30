@@ -1,20 +1,22 @@
-import { Body, Controller, Get, Post, UseInterceptors } from '@nestjs/common';
-import { ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { Body, UseFilters, UseInterceptors } from '@nestjs/common';
+import { Controller, Get, Post } from '@nestjs/common';
+import { HttpExceptionFilter } from 'src/common/exceptions/http-exception.filter';
 import { SuccessInterceptor } from 'src/common/interceptors/success.interceptor';
-import { Cat } from './cats.schema';
 import { CatsService } from './cats.service';
+import { CatRequestDto } from './dto/cats.request.dto';
+import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { ReadOnlyCatDto } from './dto/cat.dto';
-import { CatRequestDto } from './dto/cat.request.dto';
 
 @Controller('cats')
 @UseInterceptors(SuccessInterceptor)
+@UseFilters(HttpExceptionFilter)
 export class CatsController {
   constructor(private readonly catsService: CatsService) {}
 
   @ApiOperation({ summary: '현재 고양이 가져오기' })
   @Get()
   getCurrentCat() {
-    return 'current Cat';
+    return 'current cat';
   }
 
   @ApiResponse({
@@ -23,8 +25,8 @@ export class CatsController {
   })
   @ApiResponse({
     status: 200,
-    description: '성공',
-    type: ReadOnlyCatDto
+    description: '성공!',
+    type: ReadOnlyCatDto,
   })
   @ApiOperation({ summary: '회원가입' })
   @Post()
