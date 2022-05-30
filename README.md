@@ -18,3 +18,6 @@
   - https://docs.nestjs.com/
 - ES Lint
   - https://eslint.org/docs/rules/
+- JWT
+  - https://jwt.io/
+  - https://hudi.blog/self-made-jwt/ (블로그)
