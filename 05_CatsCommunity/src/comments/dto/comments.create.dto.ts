@@ -3,5 +3,5 @@ import { PickType } from '@nestjs/swagger';
 
 export class CommentsCreateDto extends PickType(Comments, [
   'author',
-  'collection',
+  'contents',
 ] as const) {}
