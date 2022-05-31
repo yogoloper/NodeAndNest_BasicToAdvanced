@@ -5,6 +5,7 @@ import * as bcrypt from 'bcrypt';
 import { Cat } from './cats.schema';
 import { CatRequestDto } from './dto/cats.request.dto';
 import { CatsRepository } from './cats.repository';
+import { ReadOnlyCatDto } from './dto/cat.dto';
 
 @Injectable()
 export class CatsService {
@@ -36,5 +37,12 @@ export class CatsService {
     );
 
     return newCat;
+  }
+
+  async getAllCat() {
+    const allCat = await this.catsRepository.findAll();
+    const readOnlyCats = allCat.map((cat) => cat.readOnlyData);
+
+    return readOnlyCats;
   }
 }
