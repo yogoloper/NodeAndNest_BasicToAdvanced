@@ -19,6 +19,7 @@ import { JwtAuthGuard } from '../auth/jwt/jwt.guard';
 import { CurrentUser } from '../common/decorators/user.decorator';
 import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 import { multerOptions } from '../common/utils/multer.options';
+import { Cat } from './cats.schema';
 
 @Controller('cats')
 @UseInterceptors(SuccessInterceptor)
@@ -61,9 +62,12 @@ export class CatsController {
 
   @ApiOperation({ summary: '고양이 이미지 업로드' })
   @UseInterceptors(FilesInterceptor('image', 10, multerOptions('cats')))
+  @UseGuards(JwtAuthGuard)
   @Post('upload')
-  uploadCatImg(@UploadedFiles() files: Array<Express.Multer.File>) {
-    console.log(files);
-    return 'uploadImg';
+  uploadCatImg(
+    @UploadedFiles() files: Array<Express.Multer.File>,
+    @CurrentUser() cat: Cat,
+  ) {
+    return this.catsService.uploadImg(cat, files);
   }
 }

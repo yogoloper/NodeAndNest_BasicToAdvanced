@@ -4,10 +4,11 @@ import { DocumentBuilder, OpenAPIObject, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './common/exceptions/http-exception.filter';
 import * as expressBasicAuth from 'express-basic-auth';
-
+import * as path from 'path';
+import { NestExpressApplication } from '@nestjs/platform-express';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   app.useGlobalPipes(new ValidationPipe({ transform: true }));
   app.useGlobalFilters(new HttpExceptionFilter());
 
@@ -21,6 +22,10 @@ async function bootstrap() {
     }),
   );
 
+  app.useStaticAssets(path.join(__dirname, './common', 'uploads'), {
+    prefix: '/media',
+  });
+  
   const config = new DocumentBuilder()
     .setTitle('Cats API')
     .setVersion('1.0')
